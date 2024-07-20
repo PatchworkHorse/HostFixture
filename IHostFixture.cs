@@ -8,7 +8,6 @@ public interface IHostFixture
     /// <typeparam name="TService">The type of service being registered. Used to resolve existing registrations</typeparam>
     /// <typeparam name="TInstance">The instance type being added to the service collection</typeparam>
     /// <returns>This IHostFixture to chain additional commands</returns>
-
     public IHostFixture RegisterSingleton<TService, TInstance>();
 
     /// <summary>
@@ -25,7 +24,7 @@ public interface IHostFixture
     /// <typeparam name="TService">The type of service being registered. Used to resolve existing registrations</typeparam>
     /// <typeparam name="TInstance">The instance type being added to the service collection</typeparam>
     /// <returns>This IHostFixture to chain additional commands</returns>
-    public IHostFixture RegisterScoped(Type targetServiceType, object concreteService);
+    public IHostFixture RegisterScoped<TService, TInstance>();
 
     /// <summary>
     /// Registers a TIstance of TService as Scoped, replacing any existing registration regardless of the lifetime.
@@ -41,7 +40,7 @@ public interface IHostFixture
     /// <typeparam name="TService">The type of service being registered. Used to resolve existing registrations</typeparam>
     /// <typeparam name="TInstance">The instance type being added to the service collection</typeparam>
     /// <returns>This IHostFixture to chain additional commands</returns>
-    public IHostFixture RegisterTransient(Type targetServiceType, object concreteService);
+    public IHostFixture RegisterTransient<TService, TInstance>();
 
     /// <summary>
     /// Registers a TIstance of TService as Transient, replacing any existing registration regardless of the lifetime.
