@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HostFixture")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8e94a4d68c3d68e76d1b095c882a433ffcea476")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9cc375b27e1872c0ddd1dcdbdcaedd7427ddf61a")]
 [assembly: System.Reflection.AssemblyProductAttribute("HostFixture")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HostFixture")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

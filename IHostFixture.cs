@@ -49,14 +49,4 @@ public interface IHostFixture
     /// <param name="factory">The factory method to create the instance</param>
     /// <returns>This IHostFixture to chain additional commands</returns>
     public IHostFixture RegisterTransient<TService>(Action<IServiceProvider, TService> factory);
-
-
-    /// <summary>
-    /// Sets the specified IConfiguration value at the specified path
-    /// </summary>
-    /// <param name="path">The path to the configuration value</param>
-    /// <param name="value">The value to set</param>
-    /// <returns>This IHostFixture to chain additional commands</returns>
-    public IHostFixture SetConfigurationElement(string path, object? value); 
-
 }
