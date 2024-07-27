@@ -1,6 +1,12 @@
+/*
+Todo: 
+- Should ResponseContent be nullable?
+- Explore adding a method to build the HttpResponseMessage instead of just accepting a HttpContent object. 
+*/
+
 using System.Net;
 
-namespace HostFixture.Configuration; 
+namespace HostFixture.Http;
 
 public interface IHttpActionBuilder 
 {
@@ -55,4 +61,9 @@ public interface IHttpActionBuilder
     /// <param name="request">The request to evaluate</param>
     /// <returns>True if filter criteria are met, otherwise false.</returns>
     public bool Matches (HttpRequestMessage request);
+
+    /// <summary>
+    /// Builds an HttpResponseMessage based on the current state of this builder
+    /// </summary>
+    public Task<HttpResponseMessage> BuildResponseAsync();
 }

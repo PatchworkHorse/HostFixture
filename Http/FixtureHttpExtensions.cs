@@ -1,4 +1,4 @@
-namespace HostFixture.Configuration; 
+namespace HostFixture.Http; 
 
 public static class FixtureHttpExtensions
 {
