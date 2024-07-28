@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/patchwork/Source/HostFixture/HostFixture.csproj": {}
+    "/home/patchwork/Source/HostFixture/test/HostFixtureTests/HostFixtureTests.csproj": {}
   },
   "projects": {
-    "/home/patchwork/Source/HostFixture/HostFixture.csproj": {
+    "/home/patchwork/Source/HostFixture/test/HostFixtureTests/HostFixtureTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/patchwork/Source/HostFixture/HostFixture.csproj",
-        "projectName": "HostFixture",
-        "projectPath": "/home/patchwork/Source/HostFixture/HostFixture.csproj",
+        "projectUniqueName": "/home/patchwork/Source/HostFixture/test/HostFixtureTests/HostFixtureTests.csproj",
+        "projectName": "HostFixtureTests",
+        "projectPath": "/home/patchwork/Source/HostFixture/test/HostFixtureTests/HostFixtureTests.csproj",
         "packagesPath": "/home/patchwork/.nuget/packages/",
-        "outputPath": "/home/patchwork/Source/HostFixture/obj/",
+        "outputPath": "/home/patchwork/Source/HostFixture/test/HostFixtureTests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/patchwork/.nuget/NuGet/NuGet.Config"
@@ -43,21 +43,21 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.Extensions.DependencyInjection": {
+            "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[17.8.0, )"
             },
-            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+            "coverlet.collector": {
               "target": "Package",
-              "version": "[8.0.1, )"
+              "version": "[6.0.0, )"
             },
-            "Microsoft.Extensions.Hosting": {
+            "xunit": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[2.5.3, )"
             },
-            "Microsoft.Extensions.Hosting.Abstractions": {
+            "xunit.runner.visualstudio": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[2.5.3, )"
             }
           },
           "imports": [

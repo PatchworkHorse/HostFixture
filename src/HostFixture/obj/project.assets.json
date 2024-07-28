@@ -1749,11 +1749,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/patchwork/Source/HostFixture/HostFixture.csproj",
+      "projectUniqueName": "/home/patchwork/Source/HostFixture/src/HostFixture/HostFixture.csproj",
       "projectName": "HostFixture",
-      "projectPath": "/home/patchwork/Source/HostFixture/HostFixture.csproj",
+      "projectPath": "/home/patchwork/Source/HostFixture/src/HostFixture/HostFixture.csproj",
       "packagesPath": "/home/patchwork/.nuget/packages/",
-      "outputPath": "/home/patchwork/Source/HostFixture/obj/",
+      "outputPath": "/home/patchwork/Source/HostFixture/src/HostFixture/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/patchwork/.nuget/NuGet/NuGet.Config"
