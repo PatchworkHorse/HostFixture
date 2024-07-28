@@ -13,7 +13,7 @@ public class HostFixture(IHostBuilder sourceBuilder) : IHostFixture
  
     IHostBuilder SourceBuilder { get; set; } = sourceBuilder;
 
-    public IHost BuildFixturedHost()
+    public IHost GenerateFixturedIHost()
         => SourceBuilder.ConfigureServices((context, services) =>
         {
             // Todo: interceptors

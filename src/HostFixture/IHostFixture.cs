@@ -49,4 +49,10 @@ public interface IHostFixture
     /// <param name="factory">The factory method to create the instance</param>
     /// <returns>This IHostFixture to chain additional commands</returns>
     public IHostFixture RegisterTransient<TService>(Action<IServiceProvider, TService> factory);
+
+
+    /// <summary>
+    /// Builds and returns an IHost with fixture configurations attached.
+    /// </summary>
+    public IHost GenerateFixturedIHost();
 }
