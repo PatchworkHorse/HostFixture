@@ -15,5 +15,8 @@ public class Extension_tests
 
         // Assert
         Assert.NotNull(fixturedHost);
+
+        Assert.True(false); 
+
     }
 }
