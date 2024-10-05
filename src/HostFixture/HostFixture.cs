@@ -7,7 +7,6 @@ using HostFixture.Extensions;
 
 namespace HostFixture;
 
-
 public class HostFixture(IHostBuilder sourceBuilder) : IHostFixture 
 {
  
@@ -21,6 +20,9 @@ public class HostFixture(IHostBuilder sourceBuilder) : IHostFixture
 
     public static IHostFixture Create(IHostBuilder sourceBuilder)
         => new HostFixture(sourceBuilder); 
+
+
+    // Scoped replacements
 
     public IHostFixture RegisterScoped<TService, TInstance>()
     {
@@ -37,7 +39,16 @@ public class HostFixture(IHostBuilder sourceBuilder) : IHostFixture
 
         return this;
     }
-    
+
+    public IHostFixture RegisterScoped<TService>(Func<TService> factory)
+    {
+        SourceBuilder.ConfigureServices(services
+            => services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Scoped));
+
+        return this;
+    }
+
+    // Singleton replacements
 
     public IHostFixture RegisterSingleton<TService, TInstance>()
     {
@@ -55,6 +66,17 @@ public class HostFixture(IHostBuilder sourceBuilder) : IHostFixture
         return this;
     }
 
+    public IHostFixture RegisterSingleton<TService>(Func<TService> factory)
+    {
+        SourceBuilder.ConfigureServices(services
+            => services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Singleton));
+
+        return this;
+    }
+
+
+    // Transient replacements
+
     public IHostFixture RegisterTransient<TService, TInstance>()
     {
         SourceBuilder.ConfigureServices(services
@@ -67,6 +89,14 @@ public class HostFixture(IHostBuilder sourceBuilder) : IHostFixture
     {
         SourceBuilder.ConfigureServices(services
             => services.Replace(factory, ServiceLifetime.Transient));
+
+        return this;
+    }
+
+    public IHostFixture RegisterTransient<TService>(Func<TService> factory)
+    {
+        SourceBuilder.ConfigureServices(services
+            => services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Transient));
 
         return this;
     }
