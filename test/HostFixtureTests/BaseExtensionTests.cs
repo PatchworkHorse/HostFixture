@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace HostFixtureTests;
 
-public class Extension_tests
+public class BaseExtensionTests
 {
     // Very simple test to ensure that the extension method is attached to a generic HostBuilder
     [Fact]

@@ -1,10 +1,33 @@
-namespace HostFixture.Http; 
+using Microsoft.Extensions.Http;
+
+namespace HostFixture.Http;
 
 public static class FixtureHttpExtensions
 {
-    public static IHostFixture AddHttpResponse(this IHostFixture fixture, Action<IHttpActionBuilder> action)
+    public static IHostFixture AddHttpAction(this IHostFixture fixture, Action<IHttpActionBuilder> builder)
     {
-        // Todo: The implementation.
+
+        fixture.SourceBuilder
+            .ConfigureServices(services
+                => services.AddSingleton(builder));
+
         return fixture;
     }
+
+    public static IServiceCollection AddHttpActionHandler(this IServiceCollection services)
+    {
+        if (services.Any(s => s.ServiceType == typeof(HttpActionHandler)))
+            return services;
+
+        services
+            .AddSingleton<HttpActionHandler>()
+            .ConfigureAll<HttpClientFactoryOptions>(options =>
+                options.HttpMessageHandlerBuilderActions.Add(builder =>
+                {
+                    builder.AdditionalHandlers.Add(services.BuildServiceProvider().GetRequiredService<HttpActionHandler>());
+                }));
+
+        return services;
+    }
+
 }

@@ -10,7 +10,7 @@ namespace HostFixture;
 public class HostFixture(IHostBuilder sourceBuilder) : IHostFixture 
 {
  
-    IHostBuilder SourceBuilder { get; set; } = sourceBuilder;
+    public IHostBuilder SourceBuilder { get; set; } = sourceBuilder;
 
     public IHost GenerateFixturedIHost()
         => SourceBuilder.ConfigureServices((context, services) =>

@@ -73,4 +73,6 @@ public interface IHostFixture
     /// Builds and returns an IHost with fixture configurations attached.
     /// </summary>
     public IHost GenerateFixturedIHost();
+
+    public IHostBuilder SourceBuilder { get; set; }
 }
