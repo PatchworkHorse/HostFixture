@@ -1,26 +1,22 @@
-/*
-Todo: 
-"Create" isn't defined on IHostFixture, are we defeating the purpose of the interface?
-*/
-
 using HostFixture.Extensions;
 
 namespace HostFixture;
 
-public class HostFixture(IHostBuilder sourceBuilder) : IHostFixture 
+public class HostFixture
+    : IHostFixture<IHostBuilder>
 {
- 
-    public IHostBuilder SourceBuilder { get; set; } = sourceBuilder;
+    public IHostBuilder SourceBuilder { get; set; } = default!;
 
-    public IHost GenerateFixturedIHost()
-        => SourceBuilder.ConfigureServices((context, services) =>
-        {
-            // Todo: interceptors
-        }).Build();
+    public HostFixture(IHostBuilder builder)
+    {
+        SourceBuilder = builder;
+    }
 
-    public static IHostFixture Create(IHostBuilder sourceBuilder)
-        => new HostFixture(sourceBuilder); 
-
+    public IHostFixture ConfigureServices(Action<IServiceCollection> configDelegate)
+    {
+        SourceBuilder.ConfigureServices(configDelegate);
+        return this;
+    }
 
     // Scoped replacements
 

@@ -12,16 +12,14 @@ public class BaseExtensionTests
     public void should_attach_fixture_to_buidlder()
     {
         // Arrange
-        var targetBuilder = new HostBuilder();
+        var builder = new HostBuilder();
 
-        // Act
-        var fixturedHost = targetBuilder.ConfigureFixture()
-            .GenerateFixturedIHost(); 
+        builder.ConfigureFixture(); 
 
         // Assert
-        Assert.NotNull(fixturedHost);
+        Assert.NotNull(builder);
 
-        fixturedHost.Should().NotBeNull();
+        builder.Should().NotBeNull();
     }
 
     [Fact]
@@ -30,19 +28,21 @@ public class BaseExtensionTests
         // Arrange
 
         // Grab the IHostBuilder property from the Program class of the SUT project 
-        var targetBuilder = Program.CreateBuilder(Array.Empty<string>());   
+        var builder = Program.CreateBuilder(Array.Empty<string>());
 
         // Act
-        var fixturedHost = targetBuilder.ConfigureFixutre()
-            .RegisterScoped(() => 
+        builder
+            .ConfigureFixture()
+            .RegisterTransient(() => 
             {
                 // Create and register mock services fluently!!
 
                 var mock = new Mock<IStringService>();
                 mock.Setup(x => x.GenerateRandomString(It.IsAny<int>())).Returns("I'm a mocked service!");
                 return mock.Object;
-            })
-            .GenerateFixturedIHost();
+            }); 
+
+        var fixturedHost = builder.Build();
 
         // Assert
         // We expect our mocked IStringService to be resolved as a StringService

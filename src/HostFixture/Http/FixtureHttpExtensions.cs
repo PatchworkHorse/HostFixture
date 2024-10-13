@@ -1,15 +1,19 @@
+using HostFixture.Extensions;
 using Microsoft.Extensions.Http;
 
 namespace HostFixture.Http;
 
 public static class FixtureHttpExtensions
 {
-    public static IHostFixture AddHttpAction(this IHostFixture fixture, Action<IHttpActionBuilder> builder)
+    public static IHostFixture AddHttpAction(this IHostFixture fixture, Action<IHttpActionBuilder> builderDelegate)
     {
+        var builder = new HttpActionBuilder(); 
+        builderDelegate(builder); 
 
-        fixture.SourceBuilder
-            .ConfigureServices(services
-                => services.AddSingleton(builder));
+        fixture.ConfigureServices(services
+            => services
+                .AddSingleton<IHttpActionBuilder>(builder)
+                .AddHttpActionHandler()); 
 
         return fixture;
     }
