@@ -30,15 +30,25 @@ public class HostApplicationFixture
 
     public IHostFixture RegisterScoped<TService>(Action<IServiceProvider, TService> factory)
     {
-        SourceBuilder.Services.Replace(factory, ServiceLifetime.Scoped);
+        SourceBuilder
+            .Services
+            .Replace(typeof(TService), factory, ServiceLifetime.Scoped);
 
         return this;
     }
 
     public IHostFixture RegisterScoped<TService>(Func<TService> factory)
     {
-        SourceBuilder.Services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Scoped);
+        SourceBuilder
+            .Services
+            .Replace(typeof(TService), factory, ServiceLifetime.Scoped);
 
+        return this;
+    }
+
+    public IHostFixture RegisterScoped(Type serviceType, object instance)
+    {
+        SourceBuilder.Services.Replace(serviceType, instance, ServiceLifetime.Scoped);
         return this;
     }
 
@@ -53,18 +63,28 @@ public class HostApplicationFixture
 
     public IHostFixture RegisterSingleton<TService>(Action<IServiceProvider, TService> factory)
     {
-        SourceBuilder.Services.Replace(factory, ServiceLifetime.Singleton);
+        SourceBuilder
+            .Services
+            .Replace(typeof(TService), factory, ServiceLifetime.Transient);
 
         return this;
     }
 
     public IHostFixture RegisterSingleton<TService>(Func<TService> factory)
     {
-        SourceBuilder.Services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Singleton);
+        SourceBuilder
+            .Services
+            .Replace(typeof(TService), factory, ServiceLifetime.Scoped);
 
         return this;
     }
 
+
+    public IHostFixture RegisterSingleton(Type serviceType, object instance)
+    {
+        SourceBuilder.Services.Replace(serviceType, instance, ServiceLifetime.Singleton);
+        return this;
+    }
 
     // Transient replacements
 
@@ -77,15 +97,26 @@ public class HostApplicationFixture
 
     public IHostFixture RegisterTransient<TService>(Action<IServiceProvider, TService> factory)
     {
-        SourceBuilder.Services.Replace(factory, ServiceLifetime.Transient);
+        SourceBuilder
+            .Services
+            .Replace(typeof(TService), factory, ServiceLifetime.Transient);
 
         return this;
     }
 
     public IHostFixture RegisterTransient<TService>(Func<TService> factory)
     {
-        SourceBuilder.Services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Transient);
+        SourceBuilder
+            .Services
+            .Replace(typeof(TService), factory, ServiceLifetime.Transient);
 
         return this;
     }
+
+    public IHostFixture RegisterTransient(Type serviceType, object instance)
+    {
+        SourceBuilder.Services.Replace(serviceType, instance, ServiceLifetime.Transient);
+        return this;
+    }
+
 }

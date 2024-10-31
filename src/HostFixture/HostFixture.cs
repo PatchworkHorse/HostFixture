@@ -31,7 +31,7 @@ public class HostFixture
     public IHostFixture RegisterScoped<TService>(Action<IServiceProvider, TService> factory)
     {
         SourceBuilder.ConfigureServices(services
-            => services.Replace(factory, ServiceLifetime.Scoped));
+            => services.Replace(typeof(TService), factory, ServiceLifetime.Scoped));
 
         return this;
     }
@@ -39,10 +39,27 @@ public class HostFixture
     public IHostFixture RegisterScoped<TService>(Func<TService> factory)
     {
         SourceBuilder.ConfigureServices(services
-            => services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Scoped));
+            => services.Replace(typeof(TService), factory, ServiceLifetime.Scoped));
 
         return this;
     }
+    
+    public IHostFixture RegisterScoped(Type serviceType, Type implementationType)
+    {
+        SourceBuilder.ConfigureServices(services
+            => services.Replace(serviceType, implementationType, ServiceLifetime.Scoped));
+
+        return this;
+    }
+
+    public IHostFixture RegisterScoped(Type serviceType, object instance)
+    {
+        SourceBuilder.ConfigureServices(services
+            => services.Replace(serviceType, instance, ServiceLifetime.Scoped));
+
+        return this;
+    }
+
 
     // Singleton replacements
 
@@ -57,7 +74,7 @@ public class HostFixture
     public IHostFixture RegisterSingleton<TService>(Action<IServiceProvider, TService> factory)
     {
         SourceBuilder.ConfigureServices(services
-            => services.Replace(factory, ServiceLifetime.Singleton));
+            => services.Replace(typeof(TService), factory, ServiceLifetime.Singleton));
 
         return this;
     }
@@ -65,10 +82,19 @@ public class HostFixture
     public IHostFixture RegisterSingleton<TService>(Func<TService> factory)
     {
         SourceBuilder.ConfigureServices(services
-            => services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Singleton));
+            => services.Replace(typeof(TService), factory, ServiceLifetime.Singleton));
 
         return this;
     }
+
+    public IHostFixture RegisterSingleton(Type serviceType, object instance)
+    {
+        SourceBuilder.ConfigureServices(services
+            => services.Replace(serviceType, instance, ServiceLifetime.Singleton));
+
+        return this;
+    }
+
 
 
     // Transient replacements
@@ -84,7 +110,7 @@ public class HostFixture
     public IHostFixture RegisterTransient<TService>(Action<IServiceProvider, TService> factory)
     {
         SourceBuilder.ConfigureServices(services
-            => services.Replace(factory, ServiceLifetime.Transient));
+            => services.Replace(typeof(TService), factory, ServiceLifetime.Transient));
 
         return this;
     }
@@ -92,7 +118,15 @@ public class HostFixture
     public IHostFixture RegisterTransient<TService>(Func<TService> factory)
     {
         SourceBuilder.ConfigureServices(services
-            => services.Replace<TService>((sp, TService) => factory.Invoke(), ServiceLifetime.Transient));
+            => services.Replace(typeof(TService), factory, ServiceLifetime.Transient));
+
+        return this;
+    }
+
+    public IHostFixture RegisterTransient(Type serviceType, object instance)
+    {
+        SourceBuilder.ConfigureServices(services
+            => services.Replace(serviceType, instance, ServiceLifetime.Transient));
 
         return this;
     }

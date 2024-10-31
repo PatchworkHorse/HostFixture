@@ -1,10 +1,10 @@
-namespace HostFixture.Extensions; 
+namespace HostFixture.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection Replace(this IServiceCollection services, 
-        Type serviceType, 
-        Type instanceType, 
+    public static IServiceCollection Replace(this IServiceCollection services,
+        Type serviceType,
+        Type instanceType,
         ServiceLifetime lifetime)
     {
         services.RemoveAll(serviceType)
@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection Replace<TService, TInstance> (this IServiceCollection services,
+    public static IServiceCollection Replace<TService, TInstance>(this IServiceCollection services,
         ServiceLifetime lifetime)
     {
         services.RemoveAll(typeof(TService))
@@ -22,12 +22,23 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection Replace<TService>(this IServiceCollection services, 
-        Action<IServiceProvider, TService> factory, 
+    public static IServiceCollection Replace<TService>(this IServiceCollection services,
+        Func<IServiceProvider, object> factory,
         ServiceLifetime lifetime)
     {
         services.RemoveAll(typeof(TService))
                 .Add(new ServiceDescriptor(typeof(TService), factory, lifetime));
+
+        return services;
+    }
+
+    public static IServiceCollection Replace(this IServiceCollection services,
+        Type serviceType,
+        object instance,
+        ServiceLifetime lifetime)
+    {
+        services.RemoveAll(serviceType)
+                .Add(new ServiceDescriptor(serviceType, sp => instance, lifetime));
 
         return services;
     }
