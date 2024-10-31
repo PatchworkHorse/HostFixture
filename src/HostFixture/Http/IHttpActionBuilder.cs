@@ -15,14 +15,14 @@ public interface IHttpActionBuilder
     /// </summary>
     /// <param name="filter">The filter action to evaluate</param>
     /// <returns>This builder instance</returns>
-    public IHttpActionBuilder RequestUriFilter(Func<Uri, bool> filter);
+    public IHttpActionBuilder WithRequestUriFilter(Func<Uri, bool> filter);
 
     /// <summary>
     /// Sets a filter to determine if the request method matches the criteria for this action
     /// </summary>
     /// <param name="filter">The filter action to evaluate</param>
     /// <returns>This builder instance</returns>
-    public IHttpActionBuilder RequestMethodFilter(Func<HttpMethod, bool> filter);
+    public IHttpActionBuilder WithRequestMethodFilter(Func<HttpMethod, bool> filter);
 
     /// <summary>
     /// Sets the response code to be returned in the HttpResponseMessage

@@ -48,13 +48,13 @@ public class HttpActionBuilder : IHttpActionBuilder
         return true;
     }
 
-    public IHttpActionBuilder RequestMethodFilter(Func<HttpMethod, bool> filter)
+    public IHttpActionBuilder WithRequestMethodFilter(Func<HttpMethod, bool> filter)
     {
         RequestMethodPredicate = filter;
         return this;
     }
 
-    public IHttpActionBuilder RequestUriFilter(Func<Uri, bool> filter)
+    public IHttpActionBuilder WithRequestUriFilter(Func<Uri, bool> filter)
     {
         RequestUriPredicates.Add(filter);
         return this;
