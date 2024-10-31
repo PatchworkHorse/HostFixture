@@ -3,14 +3,13 @@ using HostFixture.Http;
 using System.Net;
 using TestWebApi;
 
-
 namespace HostFixtureTests;
 
 public class HttpExtensionTests
 {
 
     [Fact]
-    public async Task should_add_http_action_handler()
+    public void should_add_http_action_handler()
     {
         // Arrange
 
@@ -47,6 +46,8 @@ public class HttpExtensionTests
     {
         // Arrange
 
+        const string expectedResult = "Horses are the best animal"; 
+
         var targetBuilder = Program.CreateBuilder(Array.Empty<string>());
 
         targetBuilder
@@ -56,7 +57,7 @@ public class HttpExtensionTests
                 // For any outgoing HTTP request to https://www.github.com, return a mocked response
 
                 b.WithRequestUriFilter((uri) => uri.ToString() == "https://www.github.com/")
-                 .SetResponseContent(new StringContent("I'm a mocked response!"))
+                 .SetResponseContent(new StringContent(expectedResult))
                  .SetResponseCode(HttpStatusCode.OK);
             });
 
@@ -68,7 +69,7 @@ public class HttpExtensionTests
         
         var response = await webRequestService.GetAsync("https://www.github.com");
 
-        Console.WriteLine(response); 
+        Assert.Equal(expectedResult, response); 
     }
 
 }
