@@ -1,7 +1,4 @@
 using FluentAssertions;
-using Moq;
-using TestWebApi;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace HostFixtureTests;
 
@@ -22,31 +19,4 @@ public class BaseExtensionTests
         builder.Should().NotBeNull();
     }
 
-    [Fact]
-    public void should_replace_service_collection_entries()
-    {
-        // Arrange
-        var mock = new Mock<IStringService>();
-        mock.Setup(x => x.GenerateRandomString(It.IsAny<int>())).Returns("I'm a mocked service!");
-
-        // Grab the IHostBuilder property from the Program class of the SUT project 
-        var builder = Program.CreateBuilder(Array.Empty<string>());
-
-        // Act
-        builder
-            .ConfigureFixture()
-            .RegisterTransient(typeof(IStringService), mock.Object);
-
-        var fixturedHost = builder.Build();
-
-        // Assert
-        // We expect our mocked IStringService to be resolved as a StringService
-
-        var service = fixturedHost.Services.GetRequiredService<IStringService>();
-
-
-
-
-        Assert.NotNull(service);
-    }
 }

@@ -19,8 +19,10 @@ public class HostApplicationFixture
         return this;
     }
 
-    // Scoped replacements
 
+    //
+    // Scoped replacements
+    //
     public IHostFixture RegisterScoped<TService, TInstance>()
     {
         SourceBuilder.Services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Scoped);
@@ -28,20 +30,25 @@ public class HostApplicationFixture
         return this;
     }
 
-    public IHostFixture RegisterScoped<TService>(Action<IServiceProvider, TService> factory)
+    public IHostFixture RegisterScoped<TService>(Func<TService> factory)
     {
+        TService instance = factory.Invoke();
+
+        if (instance == null)
+            throw new InvalidOperationException("The factory method returned a null instance");
+
         SourceBuilder
             .Services
-            .Replace(typeof(TService), factory, ServiceLifetime.Scoped);
+            .Replace(typeof(TService), instance, ServiceLifetime.Scoped);
 
         return this;
     }
 
-    public IHostFixture RegisterScoped<TService>(Func<TService> factory)
+    public IHostFixture RegisterScoped<TService>(Func<IServiceProvider, TService> factory)
     {
         SourceBuilder
             .Services
-            .Replace(typeof(TService), factory, ServiceLifetime.Scoped);
+            .Replace(factory, ServiceLifetime.Scoped);
 
         return this;
     }
@@ -52,8 +59,11 @@ public class HostApplicationFixture
         return this;
     }
 
-    // Singleton replacements
 
+
+    //
+    // Singleton replacements
+    //
     public IHostFixture RegisterSingleton<TService, TInstance>()
     {
         SourceBuilder.Services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Singleton);
@@ -61,24 +71,28 @@ public class HostApplicationFixture
         return this;
     }
 
-    public IHostFixture RegisterSingleton<TService>(Action<IServiceProvider, TService> factory)
-    {
-        SourceBuilder
-            .Services
-            .Replace(typeof(TService), factory, ServiceLifetime.Transient);
-
-        return this;
-    }
-
     public IHostFixture RegisterSingleton<TService>(Func<TService> factory)
     {
+        TService instance = factory.Invoke(); 
+
+        if(instance == null)
+            throw new InvalidOperationException("The factory method returned a null instance");
+        
         SourceBuilder
             .Services
-            .Replace(typeof(TService), factory, ServiceLifetime.Scoped);
+            .Replace(typeof(TService), instance, ServiceLifetime.Scoped);
 
         return this;
     }
 
+    public IHostFixture RegisterSingleton<TService>(Func<IServiceProvider, TService> factory)
+    {
+        SourceBuilder
+            .Services
+            .Replace(factory, ServiceLifetime.Scoped);
+
+        return this;
+    }
 
     public IHostFixture RegisterSingleton(Type serviceType, object instance)
     {
@@ -86,8 +100,10 @@ public class HostApplicationFixture
         return this;
     }
 
-    // Transient replacements
 
+    //
+    // Transient replacements
+    //
     public IHostFixture RegisterTransient<TService, TInstance>()
     {
         SourceBuilder.Services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Transient);
@@ -95,20 +111,25 @@ public class HostApplicationFixture
         return this;
     }
 
-    public IHostFixture RegisterTransient<TService>(Action<IServiceProvider, TService> factory)
+    public IHostFixture RegisterTransient<TService>(Func<TService> factory)
     {
+        TService instance = factory.Invoke();
+
+        if (instance == null)
+            throw new InvalidOperationException("The factory method returned a null instance");
+
         SourceBuilder
             .Services
-            .Replace(typeof(TService), factory, ServiceLifetime.Transient);
+            .Replace(typeof(TService), instance, ServiceLifetime.Transient);
 
         return this;
     }
 
-    public IHostFixture RegisterTransient<TService>(Func<TService> factory)
+    public IHostFixture RegisterTransient<TService>(Func<IServiceProvider, TService> factory)
     {
         SourceBuilder
             .Services
-            .Replace(typeof(TService), factory, ServiceLifetime.Transient);
+            .Replace(factory, ServiceLifetime.Scoped);
 
         return this;
     }
@@ -118,5 +139,4 @@ public class HostApplicationFixture
         SourceBuilder.Services.Replace(serviceType, instance, ServiceLifetime.Transient);
         return this;
     }
-
 }

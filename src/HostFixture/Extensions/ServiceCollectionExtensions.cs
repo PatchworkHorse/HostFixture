@@ -23,11 +23,13 @@ public static class ServiceCollectionExtensions
     }
 
     public static IServiceCollection Replace<TService>(this IServiceCollection services,
-        Func<IServiceProvider, object> factory,
+        Func<IServiceProvider, TService> factory,
         ServiceLifetime lifetime)
     {
         services.RemoveAll(typeof(TService))
-                .Add(new ServiceDescriptor(typeof(TService), factory, lifetime));
+                .Add(new ServiceDescriptor(typeof(TService), 
+                    sp => factory.Invoke(sp) ?? throw new InvalidOperationException("The factory method failed to return an instance"), 
+                    lifetime));
 
         return services;
     }
