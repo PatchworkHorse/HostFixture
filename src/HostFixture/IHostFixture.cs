@@ -109,9 +109,3 @@ public interface IHostFixture
     public IHostFixture RegisterTransient(Type serviceType, object instance);
 
 }
-
-// public interface IHostFixture<T> : IHostFixture
-//     where T : class
-// {
-//     public T SourceBuilder { get; }
-// }
