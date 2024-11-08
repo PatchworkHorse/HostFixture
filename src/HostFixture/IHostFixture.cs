@@ -110,7 +110,8 @@ public interface IHostFixture
 
 }
 
-public interface IHostFixture<T> : IHostFixture
-    where T : class
-{
-}
+// public interface IHostFixture<T> : IHostFixture
+//     where T : class
+// {
+//     public T SourceBuilder { get; }
+// }
