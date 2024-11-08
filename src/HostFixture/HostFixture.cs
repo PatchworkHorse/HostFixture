@@ -2,19 +2,27 @@ using HostFixture.Extensions;
 
 namespace HostFixture;
 
-public class HostFixture
-    : IHostFixture<IHostBuilder>
-{
-    public IHostBuilder SourceBuilder { get; set; } = default!;
+public class HostFixture<TBuilder> : IHostFixture
+{    
+    
+    public IServiceCollection Services { get; set; } = default!;
 
-    public HostFixture(IHostBuilder builder)
+    public TBuilder Builder { get; set; } = default!;
+
+    public HostFixture(TBuilder builder)
     {
-        SourceBuilder = builder;
+        if(builder is IHostApplicationBuilder appBuilder)
+            Services = appBuilder.Services;
+        
+        if(builder is IHostBuilder hostBuilder)
+            hostBuilder.ConfigureServices((context, services) => Services = services);
+
+        Builder = builder;
     }
 
-    public IHostFixture ConfigureServices(Action<IServiceCollection> configDelegate)
+    public IHostFixture ConfigureServices(Action<IServiceCollection> serviceCollection)
     {
-        SourceBuilder.ConfigureServices(configDelegate);
+        serviceCollection(Services);
         return this;
     }
 
@@ -23,33 +31,30 @@ public class HostFixture
     //
     public IHostFixture RegisterScoped<TService, TInstance>()
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Scoped));
-
+        Services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Scoped); 
         return this;
     }
 
     public IHostFixture RegisterScoped<TService>(Func<TService> factory)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(typeof(TService), factory, ServiceLifetime.Scoped));
+        TService instance = factory();
 
+        if (instance == null)
+            throw new InvalidOperationException("The factory method failed to return an instance");
+
+        Services.Replace(typeof(TService), instance, ServiceLifetime.Scoped);
         return this;
     }
 
     public IHostFixture RegisterScoped<TService>(Func<IServiceProvider, TService> factory)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(factory, ServiceLifetime.Scoped));
-
+        Services.Replace(factory, ServiceLifetime.Scoped);
         return this;
     }
 
     public IHostFixture RegisterScoped(Type serviceType, object instance)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(serviceType, instance, ServiceLifetime.Scoped));
-
+        Services.Replace(serviceType, instance, ServiceLifetime.Scoped); 
         return this;
     }
 
@@ -58,34 +63,31 @@ public class HostFixture
 
     public IHostFixture RegisterSingleton<TService, TInstance>()
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Singleton));
-
+        Services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Singleton); 
         return this;
     }
 
     public IHostFixture RegisterSingleton<TService>(Func<TService> factory)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(typeof(TService), factory, ServiceLifetime.Singleton));
+        TService instance = factory();
 
+        if(instance == null)
+            throw new InvalidOperationException("The factory method failed to return an instance");
+
+        Services.Replace(typeof(TService), instance, ServiceLifetime.Singleton); 
         return this;
     }
 
 
     public IHostFixture RegisterSingleton<TService>(Func<IServiceProvider, TService> factory)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(factory, ServiceLifetime.Scoped));
-
+        Services.Replace(factory, ServiceLifetime.Scoped); 
         return this;
     }
 
     public IHostFixture RegisterSingleton(Type serviceType, object instance)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(serviceType, instance, ServiceLifetime.Singleton));
-
+        Services.Replace(serviceType, instance, ServiceLifetime.Singleton); 
         return this;
     }
 
@@ -95,33 +97,30 @@ public class HostFixture
 
     public IHostFixture RegisterTransient<TService, TInstance>()
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Transient));
-
+        Services.Replace(typeof(TService), typeof(TInstance), ServiceLifetime.Transient); 
         return this;
     }
 
     public IHostFixture RegisterTransient<TService>(Func<TService> factory)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(typeof(TService), factory, ServiceLifetime.Transient));
+        TService instance = factory();
 
+        if (instance == null)
+            throw new InvalidOperationException("The factory method failed to return an instance");
+
+        Services.Replace(typeof(TService), instance, ServiceLifetime.Transient);
         return this;
     }
 
     public IHostFixture RegisterTransient<TService>(Func<IServiceProvider, TService> factory)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(factory, ServiceLifetime.Scoped));
-
+        Services.Replace(factory, ServiceLifetime.Scoped); 
         return this;
     }
 
     public IHostFixture RegisterTransient(Type serviceType, object instance)
     {
-        SourceBuilder.ConfigureServices(services
-            => services.Replace(serviceType, instance, ServiceLifetime.Transient));
-
+        Services.Replace(serviceType, instance, ServiceLifetime.Transient); 
         return this;
     }
 }

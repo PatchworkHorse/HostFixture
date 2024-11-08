@@ -23,7 +23,7 @@ public class HttpExtensionTests
                 b.WithRequestUriFilter((uri) => uri.ToString() == "https://www.github.com/")
                  .SetResponseContent(new StringContent("I'm a mocked response!"))
                  .SetResponseCode(HttpStatusCode.OK);
-            });
+            }); 
 
         // Act
         var fixturedApp = targetBuilder.Build();
