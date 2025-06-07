@@ -1,6 +1,6 @@
 namespace HostFixture;
 
-public interface IHostFixture
+public interface IHostFixture : IConfigurationFixture
 {
     public IHostFixture ConfigureServices(Action<IServiceCollection> serviceCollection);
 

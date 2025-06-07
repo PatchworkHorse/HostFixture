@@ -1,4 +1,6 @@
 using TestWebApi;
+using TestWebApi.Services;
+using TestWebApi.Config;
 
 public static class Program
 {
@@ -7,7 +9,11 @@ public static class Program
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
         builder
+         .Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true); 
+         
+        builder
          .Services
+         .Configure<ApiConfig>(builder.Configuration.GetSection(nameof(ApiConfig)))
          .AddHttpClient()
          .AddTransient<IStringService, StringService>()
          .AddTransient<IWebRequestService, WebRequestService>(); 
@@ -27,6 +33,7 @@ public static class Program
         // Using the string service
         app.MapGet("/string/random", (IStringService service) => service.GenerateRandomString(10));
         app.MapGet("/string/reverse", (IStringService service, string input) => service.ReverseString(input));
+        app.MapGet("/string/config", (IStringService service) => service.ReturnFromConfig());
 
         // Using the web request service
         app.MapGet("/web", async (IWebRequestService service, string url) => await service.GetAsync(url));

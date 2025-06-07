@@ -19,6 +19,7 @@ public class Program
 
         echoCommand.AddAlias("e"); 
         echoCommand.AddArgument(new Argument<string>("input", "The input string to echo"));
+        
         // HTTP
         Command httpCommands 
             = new Command("http", "HTTP commands"); 
