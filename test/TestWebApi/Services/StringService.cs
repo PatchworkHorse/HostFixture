@@ -1,9 +1,16 @@
 using System.Text;
+using Microsoft.Extensions.Options;
+using TestWebApi.Config;
 
-namespace TestWebApi; 
+namespace TestWebApi.Services;
 
 public class StringService : IStringService
 {
+    public StringService(IOptions<ApiConfig> config)
+        => Config = config?.Value ?? throw new ArgumentNullException(nameof(config));
+
+
+    public ApiConfig Config { get; }
     public string GenerateRandomString(int length)
     {
         var random = new Random();
@@ -23,4 +30,7 @@ public class StringService : IStringService
         }
         return result.ToString();
     }
+    
+    public string ReturnFromConfig()
+        => Config.StringToReturn;
 }

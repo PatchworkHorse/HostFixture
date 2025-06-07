@@ -12,6 +12,20 @@ HostFixture is a .NET library designed to simplify the process of setting up and
 ## Installation 
 Currently, there is no package generated for this project; this is in the near-term to-do. To try it out, clone this repo and reference the namespaces directly.
 
+## Usage
+
+### Service Replacement & Registration
+
+The core purpose of HostFixture is to provide a fluent API for configuring `IHost` instances. Existing or new services can be registered or replaced in the `IServiceCollection` using the `HostFixtureBuilder`, with any lifetime required (e.g., `Singleton`, `Scoped`, `Transient`).
+
+Imagine we have a service which itself reaches out to an external Rest API to grab the current weather for a given location. When running integration tests, actually reaching out to this dependency may not be desirable or possible, so instead we can replace the registered service with a mock or stub implementation. The key is that our replacement satisfies the same interface as the original service, so that our code can continue to function as expected.
+
+
+
+```csharp
+using HostFixture;
+```
+
 
 
 ## License
