@@ -18,5 +18,16 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageId>PatchworkHorse.HostFixture</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Patchwork Horse</Authors>
+    <Description>Test fixturing utilities for .Net integration tests</Description>
+    <PackageTags>test;fixture;host;patchworkhorse;xunit</PackageTags>
+    <RepositoryUrl>https://github.com/yourorg/patchworkhorse</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
 
 </Project>
