@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5730BA50-6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HostFixtureTests", "test\HostFixtureTests\HostFixtureTests.csproj", "{AFA2F1E5-F05C-4352-BF32-5D2E6035ECC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "src\Demo\Demo.csproj", "{E38BADC7-8157-46C1-8CC0-C009D7E95C43}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApi", "test\TestWebApi\TestWebApi.csproj", "{48D27B9F-7FD2-4F87-9A7A-BAD10DF708F9}"
 EndProject
 Global
