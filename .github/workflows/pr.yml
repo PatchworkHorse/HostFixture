@@ -4,9 +4,9 @@
 name: Pull Request | Build & Test 
 
 on:
-  push:
-    branches:
-      - release
+  pull_request:
+    branches: [ "main" ]
+      
 
 jobs:
   build:
@@ -25,7 +25,3 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-
-    - name: Publish to GitHub Packages
-      if: github.ref == 'refs/heads/release'
-      run: dotnet nuget push '**/*.nupkg' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' --api-key ${{ secrets.NUGET_PUBLISH }}
