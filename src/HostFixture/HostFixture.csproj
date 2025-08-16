@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>PatchworkHorse.HostFixture.Test.$(ProjectName)</RootNamespace>
+    <RepositoryUrl>https://github.com/PatchworkHorse/HostFixture</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
