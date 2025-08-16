@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    name: Publish
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +30,4 @@ jobs:
     - name: Publish to GitHub Packages
       if: github.ref == 'refs/heads/release'
       run: dotnet nuget push '**/*.nupkg' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' --api-key ${{ secrets.NUGET_PUBLISH }}
++
