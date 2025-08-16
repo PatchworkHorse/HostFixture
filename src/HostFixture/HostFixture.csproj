@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>PatchworkHorse.HostFixture.Test.$(ProjectName)</RootNamespace>
-    <RepositoryUrl>https://github.com/PatchworkHorse/HostFixture</RepositoryUrl>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,11 +21,11 @@
 
   <PropertyGroup>
     <PackageId>PatchworkHorse.HostFixture</PackageId>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Authors>Patchwork Horse</Authors>
     <Description>Test fixturing utilities for .Net integration tests</Description>
     <PackageTags>test;fixture;host;patchworkhorse;xunit</PackageTags>
-    <RepositoryUrl>https://github.com/yourorg/patchworkhorse</RepositoryUrl>
+    <RepositoryUrl>https://github.com/PatchworkHorse/HostFixture</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
