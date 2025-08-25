@@ -1,17 +1,19 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET Build
+name: Publish (Nuget)
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - release
   workflow_dispatch:
 
 jobs:
   build:
-
+    name: Publish
     runs-on: ubuntu-latest
 
     steps:
@@ -29,4 +31,4 @@ jobs:
 
     - name: Publish to GitHub Packages
       if: github.ref == 'refs/heads/release'
-      run: dotnet nuget push '**/*.nupkg' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' --api-key ${{ secrets.NUGET_PUBLISH }}
+      run: dotnet nuget push '**/*.nupkg' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' --api-key ${{ secrets.GITHUB_TOKEN }}
