@@ -36,9 +36,9 @@ public class HostFixture<TBuilder> : IHostFixture
 
         if (Builder is IHostBuilder hostBuilder)
             hostBuilder.ConfigureAppConfiguration(cb =>
-                cb.AddInMemoryCollection(new Dictionary<string, string?>() { { key, value?.ToString() } })); 
+                cb.AddInMemoryCollection(new Dictionary<string, string?>() { { key, value?.ToString() } }));
 
-        return this; 
+        return this;
     }
 
     public IHostFixture WithConfigFile(string path, bool optional = true)
@@ -49,6 +49,18 @@ public class HostFixture<TBuilder> : IHostFixture
         if (Builder is IHostBuilder hostBuilder)
             hostBuilder.ConfigureAppConfiguration(cb =>
                 cb.AddJsonFile(path, optional: optional, reloadOnChange: true));
+
+        return this;
+    }
+
+    public IHostFixture WithJsonConfig(string rawConfig)
+    {
+        if (Builder is IHostApplicationBuilder appBuilder)
+            appBuilder.Configuration.AddJsonStream(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(rawConfig)));
+
+        if (Builder is IHostBuilder hostBuilder)
+            hostBuilder.ConfigureAppConfiguration(cb =>
+                cb.AddJsonStream(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(rawConfig))));
 
         return this;
     }
@@ -150,6 +162,6 @@ public class HostFixture<TBuilder> : IHostFixture
         Services.Replace(serviceType, instance, ServiceLifetime.Transient);
         return this;
     }
-    
+
     #endregion
 }
