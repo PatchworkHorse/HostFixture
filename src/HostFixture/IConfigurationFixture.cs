@@ -23,5 +23,5 @@ public interface IConfigurationFixture
     /// </summary>
     /// <param name="rawConfig">The raw JSON string.</param>
     /// <returns>The <see cref="IHostFixture"/> instance for chaining.</returns>
-    IHostFixture WithJsonConfig(string rawConfig);
+    IHostFixture WithConfigJson(string rawConfig);
 }

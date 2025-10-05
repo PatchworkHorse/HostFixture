@@ -85,7 +85,7 @@ public class ConfigManipulationTests
 
         targetBuilder
             .ConfigureFixture()
-            .WithJsonConfig("""
+            .WithConfigJson("""
             {
                 "HorsesAreTheBest": "True"
             }
@@ -113,7 +113,7 @@ public class ConfigManipulationTests
         targetBuilder
             .ConfigureFixture()
             .WithConfigElement(fictionalKey, fictionalValue)
-            .WithJsonConfig("""
+            .WithConfigJson("""
             {
                 "HorsesAreTheBest": "True"
             }

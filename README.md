@@ -158,7 +158,7 @@ var builder = Program.CreateBuilder(args);
 
 builder
     .ConfigureFixture()
-    .WithJsonConfig("""
+    .WithConfigJson("""
     {
         "Key1": "Value1",
         "Key2": "Value2"
@@ -178,7 +178,7 @@ builder
     .WithConfigElement("ConnectionStrings:DefaultConnection", "InMemoryDatabase")
     .WithConfigElement("Features:NewFeatureEnabled", "true")
     .WithConfigFile("appsettings.test.json", optional: true)
-    .WithJsonConfig("""
+    .WithConfigJson("""
     {
         "Key1": "Value1",
         "Key2": "Value2"

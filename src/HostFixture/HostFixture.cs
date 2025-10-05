@@ -53,7 +53,7 @@ public class HostFixture<TBuilder> : IHostFixture
         return this;
     }
 
-    public IHostFixture WithJsonConfig(string rawConfig)
+    public IHostFixture WithConfigJson(string rawConfig)
     {
         if (Builder is IHostApplicationBuilder appBuilder)
             appBuilder.Configuration.AddJsonStream(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(rawConfig)));
