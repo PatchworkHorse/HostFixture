@@ -73,5 +73,83 @@ public class ConfigManipulationTests
         var configValue = fixturedApp.Services.GetRequiredService<IConfiguration>()[testKey];
         Assert.Equal(testValue, configValue);
     }
+
+    [Fact]
+    public void should_support_raw_json_config()
+    {
+        // Arrange
+        const string testKey = "HorsesAreTheBest";
+        const string testValue = "True";
+
+        var targetBuilder = Program.CreateBuilder(Array.Empty<string>());
+
+        targetBuilder
+            .ConfigureFixture()
+            .WithConfigJson("""
+            {
+                "HorsesAreTheBest": "True"
+            }
+            """);
+
+        // Act
+        var fixturedApp = targetBuilder.Build();
+
+        // Assert
+        var configValue = fixturedApp.Services.GetRequiredService<IConfiguration>()[testKey];
+        Assert.Equal(testValue, configValue);
+    }
+
+    // We should be able to mix and match config override methods, chaining them as needed. 
+
+    [Fact]
+    public void should_support_multiple_config_methods()
+    {
+        // Arrange
+        const string fictionalKey = "ClientID";
+        Guid fictionalValue = Guid.NewGuid();
+
+        var targetBuilder = Program.CreateBuilder(Array.Empty<string>());
+
+        targetBuilder
+            .ConfigureFixture()
+            .WithConfigElement(fictionalKey, fictionalValue)
+            .WithConfigJson("""
+            {
+                "HorsesAreTheBest": "True"
+            }
+            """);
+
+        // Act
+        var fixturedApp = targetBuilder.Build();
+
+        // Assert
+        var singleElementConfigValue = fixturedApp.Services.GetRequiredService<IConfiguration>()[fictionalKey];
+        Assert.Equal(fictionalValue.ToString(), singleElementConfigValue);
+
+        var rawJsonConfigValue = fixturedApp.Services.GetRequiredService<IConfiguration>()["HorsesAreTheBest"];
+        Assert.Equal("True", rawJsonConfigValue);
+    }
+
+    // Config chains should be exclusive and depend on order of execution. Last one wins. 
+
+    [Fact]
+    public void method_chaining_should_be_exclusive()
+    {
+        // Arrange
+        var targetBuilder = Program.CreateBuilder(Array.Empty<string>());
+
+        var fixture = targetBuilder.ConfigureFixture();
+
+        // Act
+        fixture.WithConfigElement("Key1", "FirstValue")
+                .WithConfigElement("Key1", "SecondValue")
+                .WithConfigElement("Key1", "ThirdValue");
+        var fixturedApp = targetBuilder.Build();
+
+        // Assert
+        Assert.Equal("ThirdValue", fixturedApp.Services.GetRequiredService<IConfiguration>()["Key1"]);
+    }
+
+
 }
 
