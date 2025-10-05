@@ -128,7 +128,47 @@ var app = builder.Build();
 
 ### Configuration Override
 
-HostFixture allows you to override configuration values for testing purposes, making it easy to test different application behaviors without modifying configuration files.
+HostFixture allows you to override configuration values for testing purposes. This is useful for testing different scenarios without modifying the actual configuration file. 
+
+At the simplest level, individual configuration elements can be overridden:
+```csharp
+var builder = Program.CreateBuilder(args);
+
+builder
+    .ConfigureFixture()
+    .WithConfigElement("ConnectionStrings:DefaultConnection", "InMemoryDatabase"); 
+
+var app = builder.Build();
+```
+
+Or, an entire configuration file can be loaded in addition to the existing configuration sources:
+```csharp
+var builder = Program.CreateBuilder(args);
+
+builder
+    .ConfigureFixture()
+    .WithConfigFile("appsettings.test.json", optional: true);
+
+var app = builder.Build();
+```
+
+Raw JSON strings can be fluently added as well:
+```csharp
+var builder = Program.CreateBuilder(args);
+
+builder
+    .ConfigureFixture()
+    .WithJsonConfig("""
+    {
+        "Key1": "Value1",
+        "Key2": "Value2"
+    }
+    """);
+
+var app = builder.Build();
+```
+
+Configuration overrides are fully chainable with other config and fixture methods. For configuration changes, last one wins.
 
 ```csharp
 var builder = Program.CreateBuilder(args);
@@ -136,8 +176,14 @@ var builder = Program.CreateBuilder(args);
 builder
     .ConfigureFixture()
     .WithConfigElement("ConnectionStrings:DefaultConnection", "InMemoryDatabase")
-    .WithConfigElement("ApiConfig:BaseUrl", "https://test-api.example.com")
-    .WithConfigFile("appsettings.test.json", optional: true);
+    .WithConfigElement("Features:NewFeatureEnabled", "true")
+    .WithConfigFile("appsettings.test.json", optional: true)
+    .WithJsonConfig("""
+    {
+        "Key1": "Value1",
+        "Key2": "Value2"
+    }
+    """);
 
 var app = builder.Build();
 ```
